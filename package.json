@@ -1,0 +1,27 @@
+{
+  "name": "brasildata",
+  "version": "1.0.0",
+  "description": "Projeto inicial para tratamento de dados públicos brasileiros, testando effect",
+  "homepage": "https://github.com/DidiProjects/BrasilData#readme",
+  "bugs": {
+    "url": "https://github.com/DidiProjects/BrasilData/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DidiProjects/BrasilData.git"
+  },
+  "license": "ISC",
+  "author": "Didi,Ricão",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "dependencies": {
+    "effect": "^4.0.0-rc.112",
+    "effect-playwright": "^0.8.0-0"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.13"
+  }
+}
