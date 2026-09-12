@@ -3,7 +3,7 @@ import { Effect, Layer } from "effect";
 
 import { COSTS, MANAGING } from "../../../utils/enum";
 import PortalTransparenciaAPI from "./PortalTransparenciaAPI";
-import { ICostDocumentRequestParams } from "../Interfaces/costs";
+import { ICostDocumentRequestParams, ICostDocumentResponse } from "../Interfaces/costs";
 import { InvalidFilter } from "../Error";
 
 export const getCostDocument = (filtro: ICostDocumentRequestParams) =>
@@ -23,7 +23,7 @@ export const getCostDocument = (filtro: ICostDocumentRequestParams) =>
     if (filtro.gestao) query.set("gestao", filtro.gestao);
 
     const api = yield* PortalTransparenciaAPI;
-    return yield* api.request("/api-de-dados/despesas/documentos", query);
+    return (yield* api.request("/api-de-dados/despesas/documentos", query)) as ICostDocumentResponse[];
   });
 
 export default {

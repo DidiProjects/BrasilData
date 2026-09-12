@@ -5,12 +5,17 @@ import PortalTransparenciaAPI from "./Services/PortalTransparencia/API/PortalTra
 import { FetchHttpClient } from "effect/unstable/http";
 
 
-const result = Effect.runPromise(
-  CostDocument.getCostDocument({
-    dataEmissao: "03/09/2025",
-    fase: COSTS.STAGE.COMMITMENT,
-    unidadeGestora: MANAGING.UNITY.SRA1,
-  }).pipe(Effect.provide(Layer.provide(PortalTransparenciaAPI.layer, FetchHttpClient.layer))),
+const program = CostDocument.getCostDocument({
+  dataEmissao: "03/09/2025",
+  fase: COSTS.STAGE.COMMITMENT,
+  unidadeGestora: MANAGING.UNITY.SRA1,
+}).pipe(
+  Effect.provide(Layer.provide(PortalTransparenciaAPI.layer, FetchHttpClient.layer)),
+  Effect.catchTags({
+    NetworkError: (e) => Effect.logError(`Falha de rede: ${e.error}`).pipe(Effect.as([])),
+    HttpError: (e) => Effect.logError(`Portal respondeu ${e.status}: ${e.body}`).pipe(Effect.as([])),
+    InvalidFilter: (e) => Effect.logError(e.message).pipe(Effect.as([])),
+  }),
 );
 
-result.then((docs) => console.log(docs)).catch((err) => console.error(err));
+Effect.runPromise(program).then((docs) => console.log(docs));
